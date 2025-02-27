@@ -5,24 +5,25 @@ import { lusitana } from "/app/ui/fonts";
 import Link from "next/link";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import QuickCartLogo from "/app/ui/quickcart-logo";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import useAuth from "./lib/hooks/useAuth";
+import { useEffect } from "react";
 
 export default function Home() {
   const router = useRouter();
-  const { user } = useAuth(); // Get the authenticated user
+  const { user, loading } = useAuth(); // Get the authenticated user
 
-  // Redirect if user is already logged in
+  // Redirect to dashboard user is logged in
   useEffect(() => {
-    if (user) {
+    if (!loading && user) {
+      console.log("User logged in. Redirecting...");
       router.push("/dashboard");
     }
-  }, [user, router]);
+  }, [user, loading, router]);
 
   return (
     <main className="flex min-h-screen flex-col p-6">
-      <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
+      <div className="flex h-20 shrink-0 items-center justify-center rounded-lg bg-blue-500 p-4 md:h-52">
         <QuickCartLogo />
       </div>
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">

@@ -11,7 +11,6 @@ import { auth } from "../lib/firebase.js";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import useAuth from "../lib/hooks/useAuth";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -19,14 +18,6 @@ export default function LoginForm() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { user } = useAuth(); // ✅ Get the authenticated user
-
-  // Redirect if user is already logged in
-  useEffect(() => {
-    if (user) {
-      router.push("/dashboard");
-    }
-  }, [user, router]);
 
   const signIn = async (e) => {
     e.preventDefault();
@@ -34,10 +25,10 @@ export default function LoginForm() {
     setError(null);
 
     try {
-      // ✅ Authenticate using Firebase Auth
+      // Authenticate using Firebase Auth
       await signInWithEmailAndPassword(auth, email, password);
 
-      // ✅ Navigate to the dashboard after successful login
+      // Navigate to the dashboard after successful login
       router.push("/dashboard");
     } catch (error) {
       setError("Invalid email or password. Please try again.");
@@ -46,6 +37,7 @@ export default function LoginForm() {
       setIsLoading(false);
     }
   };
+
   return (
     <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
       <h1 className={`${lusitana.className} mb-3 text-2xl`}>

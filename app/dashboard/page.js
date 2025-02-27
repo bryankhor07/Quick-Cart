@@ -4,21 +4,25 @@ import { signOut } from "firebase/auth";
 import { auth } from "../lib/firebase.js";
 import { useRouter } from "next/navigation";
 import useAuth from "../lib/hooks/useAuth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-export default function Page() {
+export default function DashboardPage() {
   const router = useRouter();
-  const { user } = useAuth(); // Get the authenticated user
+  const { user, loading } = useAuth(); // Get the authenticated user
 
-  // Redirect if user is not logged in
+  const [isLoggingOut, setIsLoggingOut] = useState(false); // Track if user is logging out
+
+  // Only redirect to login if NOT logging out
   useEffect(() => {
-    if (!user) {
-      router.push("/");
+    if (!loading && !user && !isLoggingOut) {
+      console.log("User not logged in. Redirecting...");
+      router.push("/login");
     }
-  }, [user, router]);
+  }, [user, loading, isLoggingOut, router]);
 
   const logout = async () => {
     try {
+      setIsLoggingOut(true); // Set flag before logging out
       await signOut(auth);
       console.log("User logged out");
       router.push("/"); // Redirect to Landing Page after logout
@@ -26,6 +30,11 @@ export default function Page() {
       console.error("Logout Error:", error);
     }
   };
+
+  // Show loading message while waiting for Firebase authentication
+  if (loading) {
+    return <p>Loading...</p>;
+  }
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       Dashboard Page

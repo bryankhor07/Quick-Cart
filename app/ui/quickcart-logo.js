@@ -6,8 +6,8 @@ export default function QuickCartLogo() {
     <div
       className={`${lusitana.className} flex flex-row items-center leading-none text-white gap-2`}
     >
-      <ShoppingCartIcon className="h-12 w-12 rotate-[15deg]" />
-      <p className="text-[44px]">Quick Cart</p>
+      <ShoppingCartIcon className="h-14 w-14 rotate-[15deg]" />
+      <p className="text-[60px]">Quick Cart</p>
     </div>
   );
 }
