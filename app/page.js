@@ -16,13 +16,12 @@ export default function Home() {
   // Redirect to dashboard user is logged in
   useEffect(() => {
     if (!loading && user) {
-      console.log("User logged in. Redirecting...");
       router.push("/dashboard");
     }
   }, [user, loading, router]);
 
   return (
-    <main className="flex min-h-screen flex-col p-6">
+    <main className="flex min-h-screen flex-col p-6 bg-slate-200">
       <div className="flex h-20 shrink-0 items-center justify-center rounded-lg bg-blue-500 p-4 md:h-52">
         <QuickCartLogo />
       </div>

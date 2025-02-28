@@ -11,30 +11,27 @@ import { auth } from "../lib/firebase.js";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { NotificationBanner } from "./notification-banner.js";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [showBanner, setShowBanner] = useState(false); // State to control banner visibility
   const router = useRouter();
 
-  const signIn = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError(null);
-
+  const signIn = async () => {
     try {
       // Authenticate using Firebase Auth
       await signInWithEmailAndPassword(auth, email, password);
-
       // Navigate to the dashboard after successful login
       router.push("/dashboard");
     } catch (error) {
-      setError("Invalid email or password. Please try again.");
-      console.error("Login Error:", error);
-    } finally {
-      setIsLoading(false);
+      setShowBanner(true); // Show the banner when user exists
+
+      // Hide the banner after 3 seconds
+      setTimeout(() => {
+        setShowBanner(false);
+      }, 3000);
     }
   };
 
@@ -92,6 +89,9 @@ export default function LoginForm() {
       >
         Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
       </button>
+      {showBanner && (
+        <NotificationBanner text="Invalid email or password. Please try again." />
+      )}
     </div>
   );
 }

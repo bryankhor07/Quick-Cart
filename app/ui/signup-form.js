@@ -13,21 +13,29 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAddUserInfo } from "../lib/hooks/useAddUserInfo.js";
 import { useGetUserInfo } from "../lib/hooks/useGetUserInfo.js";
+import { NotificationBanner } from "./notification-banner.js";
 
 export default function SignUpForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isCheckingUser, setIsCheckingUser] = useState(false); // ✅ Track user check status
+  const [showBanner, setShowBanner] = useState(false); // ✅ State to control banner visibility
+  const [isCheckingUser, setIsCheckingUser] = useState(false); // Track user check status
   const router = useRouter(); // Initialize the router
   const { addUserInfo } = useAddUserInfo();
   const { userInfo } = useGetUserInfo(email);
 
   const signUp = async () => {
-    setIsCheckingUser(true); // ✅ Indicate user check in progress
-    await new Promise((resolve) => setTimeout(resolve, 500)); // ✅ Small delay to allow `userInfo` update
+    setIsCheckingUser(true); // Indicate user check in progress
+    await new Promise((resolve) => setTimeout(resolve, 500)); // Small delay to allow `userInfo` update
 
     if (userInfo.length > 0) {
-      window.alert("User already exists. Please log in.");
+      setShowBanner(true); // Show the banner when user exists
+
+      // Hide the banner after 3 seconds
+      setTimeout(() => {
+        setShowBanner(false);
+      }, 3000);
+
       setIsCheckingUser(false);
       return;
     }
@@ -103,6 +111,9 @@ export default function SignUpForm() {
       >
         Sign up <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
       </button>
+      {showBanner && (
+        <NotificationBanner text="User already exists. Please log in." />
+      )}
     </div>
   );
 }
