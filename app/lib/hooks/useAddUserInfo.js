@@ -12,7 +12,7 @@ import { db } from "../firebase";
 export const useAddUserInfo = () => {
   const userCollectionRef = collection(db, "users"); // Reference to the users collection
 
-  const addUserInfo = async ({ userID, email, password }) => {
+  const addUserInfo = async ({ userID, email }) => {
     try {
       const querySnapshot = await getDocs(
         query(userCollectionRef, where("userID", "==", userID))
@@ -29,7 +29,6 @@ export const useAddUserInfo = () => {
       await setDoc(userDocRef, {
         userID, // Optional since it's already the document ID, but helpful for redundancy
         email,
-        password,
         createdAt: serverTimestamp(),
       });
     } catch (error) {

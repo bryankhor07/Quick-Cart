@@ -1,58 +1,50 @@
 "use client";
 
 import { lusitana } from "@/app/ui/fonts";
-import {
-  AtSymbolIcon,
-  KeyIcon,
-  ExclamationCircleIcon,
-} from "@heroicons/react/24/outline";
+import { AtSymbolIcon, KeyIcon } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { auth } from "../lib/firebase.js";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAddUserInfo } from "../lib/hooks/useAddUserInfo.js";
-import { useGetUserInfo } from "../lib/hooks/useGetUserInfo.js";
 import { NotificationBanner } from "./notification-banner.js";
+import TermsAndConditions from "./terms-and-conditions.js";
 
 export default function SignUpForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showBanner, setShowBanner] = useState(false); // ✅ State to control banner visibility
+  const [showTC, setShowTC] = useState(false); // ✅ State to control terms and conditions visibility
   const [isCheckingUser, setIsCheckingUser] = useState(false); // Track user check status
   const router = useRouter(); // Initialize the router
   const { addUserInfo } = useAddUserInfo();
-  const { userInfo } = useGetUserInfo(email);
 
   const signUp = async () => {
-    setIsCheckingUser(true); // Indicate user check in progress
-    await new Promise((resolve) => setTimeout(resolve, 500)); // Small delay to allow `userInfo` update
-
-    if (userInfo.length > 0) {
-      setShowBanner(true); // Show the banner when user exists
-
-      // Hide the banner after 3 seconds
-      setTimeout(() => {
-        setShowBanner(false);
-      }, 3000);
-
-      setIsCheckingUser(false);
-      return;
-    }
+    setIsCheckingUser(true);
 
     try {
+      // Directly attempt to create the user and catch the error
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
+
+      // If we get here, user was created successfully
       const user = userCredential.user;
       const uid = user.uid;
-
-      addUserInfo({ userID: uid, email: email, password: password });
-      router.push("/"); // Navigate to Landing Page after successful signup
+      addUserInfo({ userID: uid, email: email });
+      router.push("/dashboard");
     } catch (error) {
-      console.error(error);
+      // Check if the error is because the email is already in use
+      if (error.code === "auth/email-already-in-use") {
+        setShowBanner(true);
+        setTimeout(() => {
+          setShowBanner(false);
+        }, 3000);
+      }
+      // Handle other errors appropriately
     } finally {
       setIsCheckingUser(false);
     }
@@ -111,6 +103,18 @@ export default function SignUpForm() {
       >
         Sign up <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
       </button>
+      <div className="mt-3 text-xs text-gray-500 text-center">
+        By signing up, you agree to our{" "}
+        <button
+          className="underline text-blue-400 hover:text-blue-700"
+          onClick={() => setShowTC(true)}
+        >
+          terms and conditions
+        </button>
+        {showTC && (
+          <TermsAndConditions handleCloseBtn={() => setShowTC(false)} />
+        )}
+      </div>
       {showBanner && (
         <NotificationBanner text="User already exists. Please log in." />
       )}
