@@ -1,6 +1,8 @@
-"use client";
-
 import { lusitana } from "@/app/ui/fonts";
+
+export const metadata = {
+  title: "Dashboard",
+};
 
 export default function DashboardPage() {
   return (

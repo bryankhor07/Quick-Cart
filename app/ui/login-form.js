@@ -35,12 +35,18 @@ export default function LoginForm() {
     }
   };
 
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent default form submission
+    signIn();
+  };
+
   return (
     <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
       <h1 className={`${lusitana.className} mb-3 text-2xl`}>
         Please log in to continue.
       </h1>
-      <div className="w-full">
+      <form onSubmit={handleSubmit} className="w-full">
         <div>
           <label
             className="mb-3 mt-5 block text-xs font-medium text-gray-900"
@@ -82,13 +88,13 @@ export default function LoginForm() {
             <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
           </div>
         </div>
-      </div>
-      <button
-        className="mt-4 w-full flex h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600 aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
-        onClick={signIn}
-      >
-        Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
-      </button>
+        <button
+          type="submit"
+          className="mt-4 w-full flex h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600 aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
+        >
+          Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
+        </button>
+      </form>
       {showBanner && (
         <NotificationBanner text="Invalid email or password. Please try again." />
       )}
