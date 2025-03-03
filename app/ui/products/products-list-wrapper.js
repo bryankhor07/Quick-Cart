@@ -1,11 +1,16 @@
-"use client"; // This is now a Client Component
+"use client";
 
 import ProductsList from "./products-list";
 import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 
 export default function ProductsListWrapper() {
-  const searchParams = useSearchParams(); // Now runs only on the client
-  const query = searchParams.get("query")?.toLowerCase() || "";
+  const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    setQuery(searchParams.get("query")?.toLowerCase() || "");
+  }, []);
 
   return <ProductsList query={query} />;
 }
