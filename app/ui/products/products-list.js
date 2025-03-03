@@ -3,15 +3,18 @@
 import { useGetAllProducts } from "@/app/lib/hooks/useGetAllProducts";
 import { useDeleteProduct } from "@/app/lib/hooks/useDeleteProduct";
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import ProductModal from "./product-modal";
 import { ProductsGridSkeleton } from "@/app/ui/skeletons";
 import useAuth from "../../lib/hooks/useAuth";
 
-export default function ProductsList({ query }) {
+export default function ProductsList() {
   const { products } = useGetAllProducts();
   const { deleteProduct } = useDeleteProduct();
   const [loadingPage, setLoadingPage] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const searchParams = useSearchParams();
+  const query = searchParams.get("query")?.toLowerCase() || "";
   const { user, loading } = useAuth(); // Get the authenticated user
 
   useEffect(() => {

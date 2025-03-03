@@ -1,13 +1,14 @@
 "use client";
 
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
+import { Suspense } from "react";
 
-export default function SearchBar() {
+function SearchBarComponent() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
@@ -25,8 +26,16 @@ export default function SearchBar() {
         placeholder="Search for products..."
         className="w-full mt-2 mr-2 p-2 border border-gray-300 rounded-lg"
         onChange={(e) => handleSearch(e.target.value)}
-        defaultValue={searchParams.get("query")?.toString()}
+        defaultValue={searchParams.get("query") ?? ""}
       />
     </div>
+  );
+}
+
+export default function SearchBar() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchBarComponent />
+    </Suspense>
   );
 }
