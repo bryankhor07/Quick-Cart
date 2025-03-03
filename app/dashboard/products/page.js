@@ -1,6 +1,6 @@
 import { lusitana } from "@/app/ui/fonts";
 import SearchBar from "@/app/ui/products/search-bar";
-import ProductsList from "@/app/ui/products/products-list";
+import ProductsListWrapper from "@/app/ui/products/products-list-wrapper";
 import { Suspense } from "react";
 import { ProductsGridSkeleton } from "@/app/ui/skeletons";
 
@@ -16,7 +16,7 @@ export default function ProductsPage() {
       </h1>
       <SearchBar />
       <Suspense fallback={<ProductsGridSkeleton />}>
-        <ProductsList />
+        <ProductsListWrapper />
       </Suspense>
     </main>
   );
