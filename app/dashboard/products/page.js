@@ -15,7 +15,9 @@ export default function ProductsPage() {
         Products
       </h1>
       <SearchBar />
-      <ProductsList />
+      <Suspense fallback={<ProductsGridSkeleton />}>
+        <ProductsList />
+      </Suspense>
     </main>
   );
 }
