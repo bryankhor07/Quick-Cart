@@ -7,8 +7,9 @@ import { useSearchParams } from "next/navigation";
 import ProductModal from "./product-modal";
 import { ProductsGridSkeleton } from "@/app/ui/skeletons";
 import useAuth from "../../lib/hooks/useAuth";
+import { Suspense } from "react";
 
-export default function ProductsList() {
+function ProductsListContent() {
   const { products } = useGetAllProducts();
   const { deleteProduct } = useDeleteProduct();
   const [loadingPage, setLoadingPage] = useState(true);
@@ -103,5 +104,13 @@ export default function ProductsList() {
         <ProductModal product={selectedProduct} onClose={handleCloseModal} />
       )}
     </div>
+  );
+}
+
+export default function ProductsList() {
+  return (
+    <Suspense fallback={<ProductsGridSkeleton />}>
+      <ProductsListContent />
+    </Suspense>
   );
 }
