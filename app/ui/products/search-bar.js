@@ -16,7 +16,7 @@ export default function SearchBar() {
       params.delete("query");
     }
     replace(`${pathname}?${params.toString()}`);
-  }, 300);
+  }, 600);
 
   return (
     <div className="w-full border flex border-gray-300 bg-white p-6 rounded-lg shadow-lg">
@@ -27,9 +27,6 @@ export default function SearchBar() {
         onChange={(e) => handleSearch(e.target.value)}
         defaultValue={searchParams.get("query")?.toString()}
       />
-      <button className="flex items-center gap-2 bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded-lg">
-        <MagnifyingGlassIcon className="w-5" />
-      </button>
     </div>
   );
 }
