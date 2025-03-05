@@ -4,7 +4,7 @@ import { lusitana } from "@/app/ui/fonts";
 import { AtSymbolIcon, KeyIcon } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { auth } from "../lib/firebase.js";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAddUserInfo } from "../lib/hooks/useAddUserInfo.js";
@@ -34,6 +34,13 @@ export default function SignUpForm() {
       // If we get here, user was created successfully
       const user = userCredential.user;
       const uid = user.uid;
+
+      // Extract username from email (before '@')
+      const username = email.split("@")[0];
+
+      // Set display name
+      await updateProfile(user, { displayName: username });
+
       addUserInfo({ userID: uid, email: email });
       router.push("/dashboard");
     } catch (error) {
