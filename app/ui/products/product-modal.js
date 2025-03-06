@@ -1,7 +1,8 @@
 import { useState, useMemo } from "react";
 import { useAddReview } from "@/app/lib/hooks/useAddReview";
+import { useDeleteReview } from "@/app/lib/hooks/useDeleteReview";
 import useAuth from "@/app/lib/hooks/useAuth";
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+import { FaStar, FaStarHalfAlt, FaRegStar, FaTrash } from "react-icons/fa";
 import { NotificationBanner } from "../notification-banner";
 
 // ⭐ Star Rating Component
@@ -50,6 +51,7 @@ export default function ProductModal({ product, onClose }) {
   const [showBanner, setShowBanner] = useState(false);
   const { user, loading } = useAuth(); // Get the authenticated user
   const { addReview } = useAddReview();
+  const { deleteReview } = useDeleteReview();
 
   // Calculate the average rating using useMemo to optimize performance
   const averageRating = useMemo(() => {
@@ -86,6 +88,20 @@ export default function ProductModal({ product, onClose }) {
     setReviews((prevReviews) => [newReview, ...prevReviews]);
     setReviewText(""); // Reset review text
     setRating(0); // Reset rating after submission
+  };
+
+  const handleDeleteReview = async (productId, reviewId) => {
+    try {
+      // Call Firestore function to delete the review
+      await deleteReview({ productId, reviewId });
+
+      // Update local state to remove review
+      setReviews((prevReviews) =>
+        prevReviews.filter((review) => review.id !== reviewId)
+      );
+    } catch (error) {
+      console.error("Error deleting review: ", error);
+    }
   };
 
   return (
@@ -173,15 +189,24 @@ export default function ProductModal({ product, onClose }) {
                 key={index}
                 className="flex flex-col gap-2 border-b border-gray-300 py-2"
               >
-                <div className="flex items-center gap-2">
-                  <p className="text-sm font-semibold">{review.userName}</p>
-                  <span className="text-yellow-500 text-sm">
-                    ⭐ {review.rating} / 5
-                  </span>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-semibold">{review.userName}</p>
+                    <span className="text-yellow-500 text-sm">
+                      ⭐ {review.rating} / 5
+                    </span>
+                  </div>
+                  <p className="text-gray-800 text-sm">{review.createdAt}</p>
                 </div>
-                <div className="flex flex-row justify-between">
+                <div className="flex flex-row justify-between items-center">
                   <p className="text-gray-600">{review.reviewText}</p>
-                  <p className="text-gray-800">{review.createdAt}</p>
+                  {/* Trash icon for deleting the review */}
+                  {user?.uid === review.userId && (
+                    <FaTrash
+                      className="text-red-500 cursor-pointer"
+                      onClick={() => handleDeleteReview(product.id, review.id)}
+                    />
+                  )}
                 </div>
               </div>
             ))}
