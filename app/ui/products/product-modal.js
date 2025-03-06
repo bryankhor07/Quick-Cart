@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useAddReview } from "@/app/lib/hooks/useAddReview";
 import useAuth from "@/app/lib/hooks/useAuth";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { NotificationBanner } from "../notification-banner";
 
 // ⭐ Star Rating Component
@@ -21,6 +21,28 @@ const StarRating = ({ rating, setRating, disabled = false }) => {
   );
 };
 
+// ⭐ Function to render average rating stars
+const AverageStarRating = ({ averageRating }) => {
+  return (
+    <div className="flex items-center space-x-1">
+      {[1, 2, 3, 4, 5].map((star) => {
+        if (averageRating >= star) {
+          return <FaStar key={star} className="text-yellow-500 text-xl" />;
+        } else if (averageRating >= star - 0.5) {
+          return (
+            <FaStarHalfAlt key={star} className="text-yellow-500 text-xl" />
+          );
+        } else {
+          return <FaRegStar key={star} className="text-gray-300 text-xl" />;
+        }
+      })}
+      <span className="text-gray-600 text-sm ml-1">
+        ({averageRating.toFixed(1)})
+      </span>
+    </div>
+  );
+};
+
 export default function ProductModal({ product, onClose }) {
   const [reviewText, setReviewText] = useState("");
   const [reviews, setReviews] = useState(product.reviews || []);
@@ -28,6 +50,13 @@ export default function ProductModal({ product, onClose }) {
   const [showBanner, setShowBanner] = useState(false);
   const { user, loading } = useAuth(); // Get the authenticated user
   const { addReview } = useAddReview();
+
+  // Calculate the average rating using useMemo to optimize performance
+  const averageRating = useMemo(() => {
+    if (reviews.length === 0) return 0;
+    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return sum / reviews.length;
+  }, [reviews]);
 
   const handleAddReview = () => {
     if (!rating) {
@@ -77,6 +106,9 @@ export default function ProductModal({ product, onClose }) {
         <h2 className="text-2xl font-semibold mt-2">{product.name}</h2>
         <p className="text-gray-600">{product.description}</p>
         <p className="text-lg font-bold mt-2">${product.price}</p>
+        <div className="mt-2 flex items-center">
+          <AverageStarRating averageRating={averageRating} />
+        </div>
         <div className="mt-4 border-2 border-black p-4 rounded-md">
           <h2 className="text-xl font-medium">In Stock</h2>
           <label

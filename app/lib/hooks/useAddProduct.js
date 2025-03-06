@@ -20,7 +20,6 @@ export const useAddProduct = () => {
         category,
         description,
         stockQuantity,
-        rating: 0,
         reviews: [],
         createdAt: serverTimestamp(),
       });
