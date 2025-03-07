@@ -1,6 +1,8 @@
 import { useState, useMemo } from "react";
 import { useAddReview } from "@/app/lib/hooks/useAddReview";
 import { useDeleteReview } from "@/app/lib/hooks/useDeleteReview";
+import { useAddOrder } from "@/app/lib/hooks/useAddOrder";
+import { useUpdateStockQuantity } from "@/app/lib/hooks/useUpdateStockQuantity";
 import useAuth from "@/app/lib/hooks/useAuth";
 import { FaStar, FaStarHalfAlt, FaRegStar, FaTrash } from "react-icons/fa";
 import { NotificationBanner } from "../notification-banner";
@@ -48,10 +50,15 @@ export default function ProductModal({ product, onClose }) {
   const [reviewText, setReviewText] = useState("");
   const [reviews, setReviews] = useState(product.reviews || []);
   const [rating, setRating] = useState(0);
-  const [showBanner, setShowBanner] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [showRatingBanner, setShowRatingBanner] = useState(false);
+  const [showOrderBanner, setShowOrderBanner] = useState(false);
+  const [showQuantityBanner, setShowQuantityBanner] = useState(false);
   const { user, loading } = useAuth(); // Get the authenticated user
   const { addReview } = useAddReview();
   const { deleteReview } = useDeleteReview();
+  const { addOrder } = useAddOrder();
+  const { updateStockQuantity } = useUpdateStockQuantity();
 
   // Calculate the average rating using useMemo to optimize performance
   const averageRating = useMemo(() => {
@@ -62,9 +69,9 @@ export default function ProductModal({ product, onClose }) {
 
   const handleAddReview = () => {
     if (!rating) {
-      setShowBanner(true);
+      setShowRatingBanner(true);
       setTimeout(() => {
-        setShowBanner(false);
+        setShowRatingBanner(false);
       }, 3000);
       return;
     }
@@ -104,6 +111,31 @@ export default function ProductModal({ product, onClose }) {
     }
   };
 
+  const handleAddOrder = () => {
+    if (product.stockQuantity < quantity) {
+      setShowQuantityBanner(true);
+      setTimeout(() => {
+        setShowQuantityBanner(false);
+      }, 3000);
+      return;
+    }
+    addOrder({
+      userId: user.uid,
+      productName: product.name,
+      imageURL: product.imageURL,
+      description: product.description,
+      totalPrice: product.price * quantity,
+      quantity: quantity,
+    });
+
+    updateStockQuantity(product.id, quantity);
+    setShowOrderBanner(true);
+    setTimeout(() => {
+      setShowOrderBanner(false);
+      onClose();
+    }, 3000);
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="relative bg-white p-6 rounded-lg shadow-lg max-w-4xl w-full h-full overflow-y-auto">
@@ -126,7 +158,9 @@ export default function ProductModal({ product, onClose }) {
           <AverageStarRating averageRating={averageRating} />
         </div>
         <div className="mt-4 border-2 border-black p-4 rounded-md">
-          <h2 className="text-xl font-medium">In Stock</h2>
+          <h2 className="text-xl font-medium">
+            {product.stockQuantity > 0 ? "In Stock" : "Out of Stock"}
+          </h2>
           <label
             htmlFor="quantity"
             className="block text-sm font-medium text-gray-700"
@@ -137,6 +171,8 @@ export default function ProductModal({ product, onClose }) {
             id="quantity"
             name="quantity"
             className="mt-1 block w-18 pl-3 pr-10 py-2 text-base border-2 border-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
           >
             <option>1</option>
             <option>2</option>
@@ -147,9 +183,18 @@ export default function ProductModal({ product, onClose }) {
           <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md block">
             Add to cart
           </button>
-          <button className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-md">
+          <button
+            className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-md"
+            onClick={handleAddOrder}
+          >
             Buy Now
           </button>
+          {showQuantityBanner && (
+            <NotificationBanner text="Not enough stock available!" />
+          )}
+          {showOrderBanner && (
+            <NotificationBanner text="Order placed successfully!" />
+          )}
         </div>
         <div className="mt-4 border-2 border-black p-4 rounded-md">
           <label
@@ -158,7 +203,7 @@ export default function ProductModal({ product, onClose }) {
           >
             Write a review
           </label>
-          {showBanner && (
+          {showRatingBanner && (
             <NotificationBanner text="Please select a rating before posting your review." />
           )}
           <StarRating rating={rating} setRating={setRating} />

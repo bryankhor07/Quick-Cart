@@ -56,23 +56,11 @@ function ProductsListContent() {
           filteredProducts.map((product) => (
             <div
               key={product.id}
-              className={`relative border p-4 rounded-lg shadow-md bg-white ${
-                product.stockQuantity <= 0
-                  ? "cursor-not-allowed opacity-50"
-                  : "cursor-pointer"
-              }`}
-              onClick={
-                product.stockQuantity <= 0
-                  ? undefined
-                  : () => handleProductClick(product)
+              className={
+                "relative border p-4 rounded-lg shadow-md bg-white cursor-pointer"
               }
+              onClick={() => handleProductClick(product)}
             >
-              {product.stockQuantity === 0 && (
-                <div className="absolute top-8 left-0 bg-red-600 text-white text-sm font-bold px-3 py-1 transform rotate-[-45deg]">
-                  SOLD OUT
-                </div>
-              )}
-
               <img
                 src={product.imageURL}
                 alt={product.name}
