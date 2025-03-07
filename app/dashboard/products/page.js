@@ -1,6 +1,8 @@
 import { lusitana } from "@/app/ui/fonts";
 import SearchBar from "@/app/ui/products/search-bar";
 import ProductsList from "@/app/ui/products/products-list";
+import { Suspense } from "react";
+import { ProductsGridSkeleton } from "@/app/ui/skeletons";
 
 export const metadata = {
   title: "Products",
@@ -13,7 +15,9 @@ export default function ProductsPage() {
         Products
       </h1>
       <SearchBar />
-      <ProductsList />
+      <Suspense fallback={<ProductsGridSkeleton />}>
+        <ProductsList />
+      </Suspense>
     </main>
   );
 }
