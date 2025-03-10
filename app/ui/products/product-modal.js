@@ -54,11 +54,25 @@ export default function ProductModal({ product, onClose }) {
   const [showRatingBanner, setShowRatingBanner] = useState(false);
   const [showOrderBanner, setShowOrderBanner] = useState(false);
   const [showQuantityBanner, setShowQuantityBanner] = useState(false);
+  const [selectedShipping, setSelectedShipping] = useState({
+    date: "",
+    price: 0,
+  });
+  const [totalPrice, setTotalPrice] = useState(product.price);
   const { user, loading } = useAuth(); // Get the authenticated user
   const { addReview } = useAddReview();
   const { deleteReview } = useDeleteReview();
   const { addOrder } = useAddOrder();
   const { updateStockQuantity } = useUpdateStockQuantity();
+
+  // Get the current date
+  const orderDate = new Date();
+
+  const threeDayArrival = new Date();
+  threeDayArrival.setDate(orderDate.getDate() + 3);
+
+  const fiveDayArrival = new Date();
+  fiveDayArrival.setDate(orderDate.getDate() + 5);
 
   // Calculate the average rating using useMemo to optimize performance
   const averageRating = useMemo(() => {
@@ -120,21 +134,14 @@ export default function ProductModal({ product, onClose }) {
       return;
     }
 
-    // Get the current date
-    const orderDate = new Date();
-
-    // Calculate the arrival date (3 days later)
-    const arrivalDate = new Date();
-    arrivalDate.setDate(orderDate.getDate() + 3);
-
     addOrder({
       userId: user.uid,
       productName: product.name,
       imageURL: product.imageURL,
       description: product.description,
-      totalPrice: product.price * quantity,
+      totalPrice: product.price * quantity + selectedShipping.price,
       quantity: quantity,
-      arrivalDate: arrivalDate,
+      arrivalDate: selectedShipping.date,
     });
 
     updateStockQuantity(product.id, quantity);
@@ -181,7 +188,12 @@ export default function ProductModal({ product, onClose }) {
             name="quantity"
             className="mt-1 block w-18 pl-3 pr-10 py-2 text-base border-2 border-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
             value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
+            onChange={(e) => {
+              setQuantity(e.target.value),
+                setTotalPrice(
+                  product.price * e.target.value + selectedShipping.price
+                );
+            }}
           >
             <option>1</option>
             <option>2</option>
@@ -189,6 +201,55 @@ export default function ProductModal({ product, onClose }) {
             <option>4</option>
             <option>5</option>
           </select>
+          <div className="mt-4">
+            <h3 className="text-lg font-medium mb-2">
+              Choose a shipping option:
+            </h3>
+            <div className="flex gap-4">
+              <button
+                className={`border-2 px-4 py-2 rounded-md transition ${
+                  selectedShipping.date === threeDayArrival.toLocaleDateString()
+                    ? "border-blue-500 bg-blue-100"
+                    : "border-black hover:bg-gray-100"
+                }`}
+                onClick={() => {
+                  setSelectedShipping({
+                    date: threeDayArrival.toLocaleDateString(),
+                    price: 5.99,
+                  }),
+                    setTotalPrice(product.price * quantity + 5.99);
+                }}
+              >
+                <p className="font-semibold">
+                  {threeDayArrival.toLocaleDateString()}
+                </p>
+                <p className="text-gray-600 text-sm">$5.99</p>
+              </button>
+              <button
+                className={`border-2 px-4 py-2 rounded-md transition ${
+                  selectedShipping.date === fiveDayArrival.toLocaleDateString()
+                    ? "border-blue-500 bg-blue-100"
+                    : "border-black hover:bg-gray-100"
+                }`}
+                onClick={() => {
+                  setSelectedShipping({
+                    date: fiveDayArrival.toLocaleDateString(),
+                    price: 2.99,
+                  }),
+                    setTotalPrice(product.price * quantity + 2.99);
+                }}
+              >
+                <p className="font-semibold">
+                  {fiveDayArrival.toLocaleDateString()}
+                </p>
+                <p className="text-gray-600 text-sm">$2.99</p>
+              </button>
+            </div>
+            <div className="mt-2 flex gap-2">
+              <h3 className="text-lg font-medium">Total Price:</h3>
+              <p className="text-xl font-bold">${totalPrice}</p>
+            </div>
+          </div>
           <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md block">
             Add to cart
           </button>
