@@ -2,20 +2,28 @@
 
 import { lusitana } from "../fonts";
 import { useDeleteAccount } from "../../lib/hooks/useDeleteAccount";
+import { useGetUserOrderCount } from "@/app/lib/hooks/useGetUserOrderCount";
 import { useState } from "react";
+import useAuth from "@/app/lib/hooks/useAuth";
 
 export default function Settings() {
   const { deleteAccount, loading, error } = useDeleteAccount();
   const [showModal, setShowModal] = useState(false);
+  const { user } = useAuth();
+  const { orderCount } = useGetUserOrderCount(user?.uid);
+
   return (
     <div className="w-full border border-gray-300 bg-white p-6 rounded-lg shadow-lg">
+      <h2 className="text-lg font-semibold text-gray-700">Name:</h2>
+      <p className="mb-3 text-gray-600">{user?.displayName}</p>
+
       <h2 className="text-lg font-semibold text-gray-700">Email:</h2>
-      <p className="mb-3 text-gray-600">bob@gmail.com</p>
+      <p className="mb-3 text-gray-600">{user?.email}</p>
 
       <h2 className="text-lg font-semibold text-gray-700">
         Total number of Orders:
       </h2>
-      <p className="mb-3 text-gray-600">10</p>
+      <p className="mb-3 text-gray-600">{orderCount}</p>
 
       <h2 className="text-lg font-semibold text-gray-700">
         Total items in Cart:
