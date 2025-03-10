@@ -58,26 +58,53 @@ export default function OrdersList() {
         </select>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredOrders.map((order) => (
-          <div
-            key={order.id}
-            className="relative border p-4 rounded-lg shadow-md bg-white cursor-pointer"
-            onClick={() => handleOrderClick(order)}
-          >
-            <img
-              src={order.imageURL}
-              alt={order.productName}
-              className="w-full h-48 object-contain rounded-md"
-            />
-            <h2 className="text-xl font-semibold mt-2">{order.productName}</h2>
-            <p className="text-gray-600">
-              {order.description.split(" ").slice(0, 10).join(" ")}...
-            </p>
-            <p className="text-gray-500">Ordered on {order.createdAt}</p>
-            <p className="text-gray-500">Quantity: {order.quantity}</p>
-            <p className="text-lg font-bold mt-2">Total: ${order.totalPrice}</p>
-          </div>
-        ))}
+        {filteredOrders.map((order) => {
+          const now = new Date();
+          const arrivalDate = new Date(order.arrivalDate);
+
+          let statusText = "";
+          let statusColor = "";
+
+          if (now >= arrivalDate) {
+            statusText = "Delivered";
+            statusColor = "bg-green-500"; // Green for delivered
+          } else {
+            statusText = "On its way";
+            statusColor = "bg-blue-500"; // Blue for shipping
+          }
+
+          return (
+            <div
+              key={order.id}
+              className="relative border p-4 rounded-lg shadow-md bg-white cursor-pointer"
+              onClick={() => handleOrderClick(order)}
+            >
+              {/* Status Tag */}
+              <div
+                className={`absolute top-2 left-2 text-white text-xs font-semibold px-3 py-1 rounded-full ${statusColor}`}
+              >
+                {statusText}
+              </div>
+
+              <img
+                src={order.imageURL}
+                alt={order.productName}
+                className="w-full h-48 object-contain rounded-md"
+              />
+              <h2 className="text-xl font-semibold mt-2">
+                {order.productName}
+              </h2>
+              <p className="text-gray-600">
+                {order.description.split(" ").slice(0, 10).join(" ")}...
+              </p>
+              <p className="text-gray-500">Ordered on {order.createdAt}</p>
+              <p className="text-gray-500">Quantity: {order.quantity}</p>
+              <p className="text-lg font-bold mt-2">
+                Total: ${order.totalPrice}
+              </p>
+            </div>
+          );
+        })}
       </div>
       {selectedOrder && (
         <OrderModal order={selectedOrder} onClose={handleCloseModal} />

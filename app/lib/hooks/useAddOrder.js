@@ -11,6 +11,7 @@ export const useAddOrder = () => {
     imageURL,
     description,
     quantity,
+    arrivalDate,
   }) => {
     try {
       await addDoc(ordersCollectionRef, {
@@ -21,6 +22,7 @@ export const useAddOrder = () => {
         totalPrice,
         quantity,
         createdAt: new Date().toLocaleDateString(),
+        arrivalDate: arrivalDate.toLocaleDateString(),
       });
     } catch (error) {
       console.error("Error adding order: ", error);

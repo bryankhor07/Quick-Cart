@@ -119,6 +119,14 @@ export default function ProductModal({ product, onClose }) {
       }, 3000);
       return;
     }
+
+    // Get the current date
+    const orderDate = new Date();
+
+    // Calculate the arrival date (3 days later)
+    const arrivalDate = new Date();
+    arrivalDate.setDate(orderDate.getDate() + 3);
+
     addOrder({
       userId: user.uid,
       productName: product.name,
@@ -126,6 +134,7 @@ export default function ProductModal({ product, onClose }) {
       description: product.description,
       totalPrice: product.price * quantity,
       quantity: quantity,
+      arrivalDate: arrivalDate,
     });
 
     updateStockQuantity(product.id, quantity);
