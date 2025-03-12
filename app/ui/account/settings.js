@@ -1,10 +1,11 @@
 "use client";
 
-import { lusitana } from "../fonts";
+import { useState } from "react";
 import { useDeleteAccount } from "../../lib/hooks/useDeleteAccount";
 import { useGetUserOrderCount } from "@/app/lib/hooks/useGetUserOrderCount";
-import { useState } from "react";
 import useAuth from "@/app/lib/hooks/useAuth";
+import { User, Mail, ShoppingBag, Trash2 } from "lucide-react"; // Import icons
+import Image from "next/image";
 
 export default function Settings() {
   const { deleteAccount, loading, error } = useDeleteAccount();
@@ -13,40 +14,74 @@ export default function Settings() {
   const { orderCount } = useGetUserOrderCount(user?.uid);
 
   return (
-    <div className="w-full border border-gray-300 bg-white p-6 rounded-lg shadow-lg">
-      <h2 className="text-lg font-semibold text-gray-700">Name:</h2>
-      <p className="mb-3 text-gray-600">{user?.displayName}</p>
+    <div className="max-w-lg mx-auto bg-white p-6 rounded-xl shadow-md border border-gray-200">
+      {/* Profile Section */}
+      <div className="flex items-center space-x-4 p-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg">
+        <div className="w-14 h-14 bg-gray-300 rounded-full overflow-hidden">
+          <Image
+            src="/blankprofilepic.webp"
+            alt="User Profile Picture"
+            width={56}
+            height={56}
+            layout="responsive"
+          />
+        </div>
+        <div>
+          <h2 className="text-xl font-bold">{user?.displayName || "User"}</h2>
+          <p className="text-sm opacity-80">{user?.email}</p>
+        </div>
+      </div>
 
-      <h2 className="text-lg font-semibold text-gray-700">Email:</h2>
-      <p className="mb-3 text-gray-600">{user?.email}</p>
+      {/* User Details */}
+      <div className="mt-6 space-y-4">
+        <div className="flex items-center gap-2">
+          <User className="w-5 h-5 text-indigo-600" />
+          <span className="text-gray-700 font-semibold">Name:</span>
+        </div>
+        <p className="text-gray-600">{user?.displayName}</p>
 
-      <h2 className="text-lg font-semibold text-gray-700">
-        Total number of Orders:
-      </h2>
-      <p className="mb-3 text-gray-600">{orderCount}</p>
+        <div className="flex items-center gap-2">
+          <Mail className="w-5 h-5 text-indigo-600" />
+          <span className="text-gray-700 font-semibold">Email:</span>
+        </div>
+        <p className="text-gray-600">{user?.email}</p>
 
-      <h2 className="text-lg font-semibold text-gray-700">
-        Total items in Cart:
-      </h2>
-      <p className="mb-6 text-gray-600">3</p>
+        <div className="flex items-center gap-2">
+          <ShoppingBag className="w-5 h-5 text-indigo-600" />
+          <span className="text-gray-700 font-semibold">Total Orders:</span>
+        </div>
+        <p className="text-gray-600">{orderCount}</p>
 
-      <div className="flex justify-end">
+        <div className="flex items-center gap-2">
+          <ShoppingBag className="w-5 h-5 text-indigo-600" />
+          <span className="text-gray-700 font-semibold">
+            Total items in Cart:
+          </span>
+        </div>
+        <p className="text-gray-600">3</p>
+      </div>
+
+      {/* Delete Account Button */}
+      <div className="mt-6 flex justify-end">
         <button
-          className="flex h-10 items-center rounded-lg bg-red-500 px-4 text-sm font-medium text-white transition-colors hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 active:bg-red-600"
+          className="flex items-center gap-2 h-10 px-4 rounded-lg bg-red-500 text-white text-sm font-medium transition hover:bg-red-600 focus:outline-none"
           onClick={() => setShowModal(true)}
           disabled={loading}
         >
+          <Trash2 className="w-4 h-4" />
           {loading ? "Deleting..." : "Delete Account"}
         </button>
       </div>
+
+      {/* Confirmation Modal */}
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-md">
+          <div className="bg-white p-6 rounded-xl shadow-lg text-center max-w-sm">
             <h2 className="text-lg font-semibold text-gray-800">
-              Are you sure you want to delete your account?
+              Are you sure?
             </h2>
             <p className="text-sm text-gray-600 mt-2">
-              This action cannot be reversed.
+              This action is permanent and cannot be undone.
             </p>
 
             <div className="flex justify-center gap-4 mt-4">
@@ -54,7 +89,7 @@ export default function Settings() {
                 className="bg-gray-300 px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-400"
                 onClick={() => setShowModal(false)}
               >
-                No
+                No, Keep Account
               </button>
               <button
                 className="bg-red-500 px-4 py-2 rounded-lg text-white hover:bg-red-600"
