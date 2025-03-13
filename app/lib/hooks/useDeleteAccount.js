@@ -1,7 +1,14 @@
 "use client";
 
 import { getAuth, deleteUser } from "firebase/auth";
-import { doc, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  deleteDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { useState } from "react";
 import { db } from "../firebase"; // Import Firestore instance
 
@@ -22,12 +29,23 @@ export const useDeleteAccount = () => {
     try {
       const user = auth.currentUser;
 
-      // Delete user data from Firestore
+      // Delete user's orders
+      const ordersCollection = collection(db, "orders");
+      const q = query(ordersCollection, where("userId", "==", user.uid));
+      const querySnapshot = await getDocs(q);
+
+      const deleteOrderPromises = querySnapshot.docs.map((orderDoc) =>
+        deleteDoc(orderDoc.ref)
+      );
+      await Promise.all(deleteOrderPromises);
+
+      // Delete user document from Firestore
       const userDocRef = doc(db, "users", user.uid);
       await deleteDoc(userDocRef);
 
       // Delete user from Firebase Authentication
       await deleteUser(user);
+
       setLoading(false);
     } catch (err) {
       setError(err.message);
