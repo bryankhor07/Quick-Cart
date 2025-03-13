@@ -3,6 +3,7 @@ import { useAddReview } from "@/app/lib/hooks/useAddReview";
 import { useDeleteReview } from "@/app/lib/hooks/useDeleteReview";
 import { useAddOrder } from "@/app/lib/hooks/useAddOrder";
 import { useUpdateStockQuantity } from "@/app/lib/hooks/useUpdateStockQuantity";
+import { useAddToCart } from "@/app/lib/hooks/useAddToCart";
 import useAuth from "@/app/lib/hooks/useAuth";
 import { FaStar, FaStarHalfAlt, FaRegStar, FaTrash } from "react-icons/fa";
 import { NotificationBanner } from "../notification-banner";
@@ -153,6 +154,7 @@ const StockAndPurchase = ({
   threeDayArrival,
   fiveDayArrival,
   handleAddOrder,
+  handleAddToCart,
   showQuantityBanner,
   showOrderBanner,
 }) => {
@@ -222,7 +224,10 @@ const StockAndPurchase = ({
           <p className="text-xl font-bold">${totalPrice.toFixed(2)}</p>
         </div>
       </div>
-      <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md block">
+      <button
+        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md block"
+        onClick={handleAddToCart}
+      >
         Add to cart
       </button>
       <button
@@ -259,6 +264,7 @@ export default function ProductModal({ product, onClose }) {
   const { deleteReview } = useDeleteReview();
   const { addOrder } = useAddOrder();
   const { updateStockQuantity } = useUpdateStockQuantity();
+  const { addToCart } = useAddToCart();
 
   // Get the current date
   const orderDate = new Date();
@@ -347,6 +353,17 @@ export default function ProductModal({ product, onClose }) {
     }, 3000);
   };
 
+  const handleAddToCart = () => {
+    addToCart(
+      product.id,
+      product.name,
+      product.price,
+      product.imageURL,
+      product.category,
+      product.description
+    );
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="relative bg-white p-6 rounded-lg shadow-lg max-w-4xl w-full h-full overflow-y-auto">
@@ -369,6 +386,7 @@ export default function ProductModal({ product, onClose }) {
           threeDayArrival={threeDayArrival}
           fiveDayArrival={fiveDayArrival}
           handleAddOrder={handleAddOrder}
+          handleAddToCart={handleAddToCart}
           showQuantityBanner={showQuantityBanner}
           showOrderBanner={showOrderBanner}
         />
