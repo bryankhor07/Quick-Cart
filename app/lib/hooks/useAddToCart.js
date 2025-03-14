@@ -6,6 +6,7 @@ export const useAddToCart = () => {
 
   const addToCart = async (
     productId,
+    userId,
     name,
     price,
     imageURL,
@@ -15,6 +16,7 @@ export const useAddToCart = () => {
     try {
       await addDoc(cartCollectionRef, {
         productId,
+        userId,
         name,
         price,
         imageURL,

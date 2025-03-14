@@ -356,6 +356,7 @@ export default function ProductModal({ product, onClose }) {
   const handleAddToCart = () => {
     addToCart(
       product.id,
+      user?.uid,
       product.name,
       product.price,
       product.imageURL,

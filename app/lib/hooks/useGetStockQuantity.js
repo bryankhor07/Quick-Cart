@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { db } from "@/app/lib/firebase"; // Adjust based on your setup
-import {
-  collection,
-  query,
-  where,
-  getCountFromServer,
-} from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 export function useGetStockQuantity(productId) {
   const [stockQuantity, setStockQuantity] = useState(0);
@@ -17,10 +12,13 @@ export function useGetStockQuantity(productId) {
     const fetchStockQuantity = async () => {
       setLoading(true);
       try {
-        const productsRef = collection(db, "products"); // Adjust collection name
-        const q = query(productsRef, where("id", "==", productId));
-        const snapshot = await getCountFromServer(q);
-        setStockQuantity(snapshot.data().count);
+        const docRef = doc(db, "products", productId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setStockQuantity(docSnap.data().stockQuantity);
+        } else {
+          console.error("No such document!");
+        }
       } catch (error) {
         console.error("Error fetching stock quantity:", error);
       } finally {
