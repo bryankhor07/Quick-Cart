@@ -157,7 +157,7 @@ function ProductsListContent() {
               <img
                 src={product.imageURL}
                 alt={product.name}
-                className="w-full h-48 object-contain rounded-md"
+                className="w-full h-48 object-cover rounded-md"
               />
               <h2 className="text-xl font-semibold mt-2">{product.name}</h2>
               <p className="text-gray-600">

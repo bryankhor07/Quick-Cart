@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useDeleteAccount } from "../../lib/hooks/useDeleteAccount";
 import { useGetUserOrderCount } from "@/app/lib/hooks/useGetUserOrderCount";
+import { userGetUserCartCount } from "@/app/lib/hooks/useGetUserCartCount";
 import useAuth from "@/app/lib/hooks/useAuth";
 import { User, Mail, ShoppingBag, Trash2 } from "lucide-react"; // Import icons
 import Image from "next/image";
@@ -12,6 +13,7 @@ export default function Settings() {
   const [showModal, setShowModal] = useState(false);
   const { user } = useAuth();
   const { orderCount } = useGetUserOrderCount(user?.uid);
+  const { cartCount } = userGetUserCartCount(user?.uid);
 
   return (
     <div className="max-w-lg mx-auto bg-white p-6 rounded-xl shadow-md border border-gray-200">
@@ -58,7 +60,7 @@ export default function Settings() {
             Total items in Cart:
           </span>
         </div>
-        <p className="text-gray-600">3</p>
+        <p className="text-gray-600">{cartCount}</p>
       </div>
 
       {/* Delete Account Button */}

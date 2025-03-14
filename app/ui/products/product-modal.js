@@ -157,6 +157,7 @@ const StockAndPurchase = ({
   handleAddToCart,
   showQuantityBanner,
   showOrderBanner,
+  showCartBanner,
 }) => {
   return (
     <div className="mt-4 border-2 border-black p-4 rounded-md">
@@ -225,13 +226,13 @@ const StockAndPurchase = ({
         </div>
       </div>
       <button
-        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md block"
+        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md block hover:bg-blue-600"
         onClick={handleAddToCart}
       >
         Add to cart
       </button>
       <button
-        className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-md"
+        className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600"
         onClick={handleAddOrder}
       >
         Buy Now
@@ -242,6 +243,7 @@ const StockAndPurchase = ({
       {showOrderBanner && (
         <NotificationBanner text="Order placed successfully!" />
       )}
+      {showCartBanner && <NotificationBanner text="Item added to cart!" />}
     </div>
   );
 };
@@ -253,6 +255,7 @@ export default function ProductModal({ product, onClose }) {
   const [quantity, setQuantity] = useState(1);
   const [showRatingBanner, setShowRatingBanner] = useState(false);
   const [showOrderBanner, setShowOrderBanner] = useState(false);
+  const [showCartBanner, setShowCartBanner] = useState(false);
   const [showQuantityBanner, setShowQuantityBanner] = useState(false);
   const [selectedShipping, setSelectedShipping] = useState({
     date: "",
@@ -363,6 +366,11 @@ export default function ProductModal({ product, onClose }) {
       product.category,
       product.description
     );
+    setShowCartBanner(true);
+    setTimeout(() => {
+      setShowCartBanner(false);
+      onClose();
+    }, 3000);
   };
 
   return (
@@ -390,6 +398,7 @@ export default function ProductModal({ product, onClose }) {
           handleAddToCart={handleAddToCart}
           showQuantityBanner={showQuantityBanner}
           showOrderBanner={showOrderBanner}
+          showCartBanner={showCartBanner}
         />
         <WriteReview
           showRatingBanner={showRatingBanner}

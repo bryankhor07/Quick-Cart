@@ -38,7 +38,7 @@ export default function CartList() {
             <img
               src={item.imageURL}
               alt={item.name}
-              className="w-48 h-56 object-scale-down rounded-xl mr-4"
+              className="w-48 h-48 object-cover rounded-md mr-4"
             />
             <div className="flex-1">
               <div className="flex flex-row justify-between">
