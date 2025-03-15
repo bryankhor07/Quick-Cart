@@ -4,6 +4,7 @@ import { useGetUserOrders } from "@/app/lib/hooks/useGetUserOrders";
 import useAuth from "@/app/lib/hooks/useAuth";
 import OrderModal from "./order-modal";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 export default function OrdersList() {
   const { user, loading: authLoading } = useAuth();
@@ -167,10 +168,12 @@ export default function OrdersList() {
                   {statusText}
                 </div>
 
-                <img
+                <Image
                   src={order.imageURL}
                   alt={order.productName}
-                  className="w-full h-48 object-contain rounded-md"
+                  width={150}
+                  height={150}
+                  className="w-full h-48 object-cover rounded-lg"
                 />
                 <h2 className="text-xl font-semibold mt-2">
                   {order.productName}

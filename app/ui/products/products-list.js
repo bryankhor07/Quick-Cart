@@ -8,6 +8,7 @@ import ProductModal from "./product-modal";
 import { ProductsGridSkeleton } from "@/app/ui/skeletons";
 import useAuth from "../../lib/hooks/useAuth";
 import { Suspense } from "react";
+import Image from "next/image";
 
 function ProductsListContent() {
   const searchParams = useSearchParams();
@@ -154,10 +155,12 @@ function ProductsListContent() {
               className="relative border p-4 rounded-lg shadow-md bg-white cursor-pointer"
               onClick={() => handleProductClick(product)}
             >
-              <img
+              <Image
                 src={product.imageURL}
                 alt={product.name}
-                className="w-full h-48 object-cover rounded-md"
+                width={200}
+                height={200}
+                className="w-full h-48 object-cover rounded-lg"
               />
               <h2 className="text-xl font-semibold mt-2">{product.name}</h2>
               <p className="text-gray-600">

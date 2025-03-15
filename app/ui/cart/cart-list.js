@@ -4,6 +4,7 @@ import { useGetUserCart } from "@/app/lib/hooks/useGetUserCart";
 import useAuth from "@/app/lib/hooks/useAuth";
 import { useState } from "react";
 import CartModal from "./cart-modal";
+import Image from "next/image";
 
 export default function CartList() {
   const { user, loading: authLoading } = useAuth();
@@ -35,10 +36,12 @@ export default function CartList() {
             key={item.id}
             className="flex items-center border-b border-gray-300 py-4"
           >
-            <img
+            <Image
               src={item.imageURL}
               alt={item.name}
-              className="w-48 h-48 object-cover rounded-md mr-4"
+              width={150}
+              height={150}
+              className="w-48 h-48 object-cover rounded-lg mr-4"
             />
             <div className="flex-1">
               <div className="flex flex-row justify-between">

@@ -25,7 +25,6 @@ export default function Settings() {
             alt="User Profile Picture"
             width={56}
             height={56}
-            layout="responsive"
           />
         </div>
         <div>
