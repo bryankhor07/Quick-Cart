@@ -161,6 +161,7 @@ const StockAndPurchase = ({
   showQuantityBanner,
   showOrderBanner,
   showCartBanner,
+  showShippingBanner,
 }) => {
   return (
     <div className="mt-4 border-2 border-black p-4 rounded-md">
@@ -247,6 +248,9 @@ const StockAndPurchase = ({
         <NotificationBanner text="Order placed successfully!" />
       )}
       {showCartBanner && <NotificationBanner text="Item added to cart!" />}
+      {showShippingBanner && (
+        <NotificationBanner text="Please select a shipping option." />
+      )}
     </div>
   );
 };
@@ -264,6 +268,7 @@ export default function ProductModal({ product, onClose }) {
     date: "",
     price: 0,
   });
+  const [showShippingBanner, setShowShippingBanner] = useState(false);
   const [totalPrice, setTotalPrice] = useState(product.price);
   const { user, loading } = useAuth(); // Get the authenticated user
   const { addReview } = useAddReview();
@@ -341,6 +346,14 @@ export default function ProductModal({ product, onClose }) {
       return;
     }
 
+    if (!selectedShipping.date) {
+      setShowShippingBanner(true);
+      setTimeout(() => {
+        setShowShippingBanner(false);
+      }, 3000);
+      return;
+    }
+
     addOrder({
       userId: user.uid,
       productName: product.name,
@@ -402,6 +415,7 @@ export default function ProductModal({ product, onClose }) {
           showQuantityBanner={showQuantityBanner}
           showOrderBanner={showOrderBanner}
           showCartBanner={showCartBanner}
+          showShippingBanner={showShippingBanner}
         />
         <WriteReview
           showRatingBanner={showRatingBanner}

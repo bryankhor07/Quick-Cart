@@ -19,6 +19,7 @@ export default function CartModal({ item, onClose, onItemRemoved }) {
   const [quantity, setQuantity] = useState(1);
   const [showQuantityBanner, setShowQuantityBanner] = useState(false);
   const [showOrderBanner, setShowOrderBanner] = useState(false);
+  const [showShippingBanner, setShowShippingBanner] = useState(false);
   const [selectedShipping, setSelectedShipping] = useState({
     date: "",
     price: 0,
@@ -29,6 +30,14 @@ export default function CartModal({ item, onClose, onItemRemoved }) {
       setShowQuantityBanner(true);
       setTimeout(() => {
         setShowQuantityBanner(false);
+      }, 3000);
+      return;
+    }
+
+    if (selectedShipping.date === "") {
+      setShowShippingBanner(true);
+      setTimeout(() => {
+        setShowShippingBanner(false);
       }, 3000);
       return;
     }
@@ -203,6 +212,9 @@ export default function CartModal({ item, onClose, onItemRemoved }) {
       )}
       {showOrderBanner && (
         <NotificationBanner text="Order placed successfully!" />
+      )}
+      {showShippingBanner && (
+        <NotificationBanner text="Please select a shipping option." />
       )}
     </div>
   );
