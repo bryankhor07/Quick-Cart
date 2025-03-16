@@ -7,6 +7,7 @@ import { useAddToCart } from "@/app/lib/hooks/useAddToCart";
 import useAuth from "@/app/lib/hooks/useAuth";
 import { FaStar, FaStarHalfAlt, FaRegStar, FaTrash } from "react-icons/fa";
 import { NotificationBanner } from "../notification-banner";
+import Image from "next/image";
 
 // ⭐ Star Rating Component
 const StarRating = ({ rating, setRating, disabled = false }) => {
@@ -128,9 +129,11 @@ const WriteReview = ({
 const ProductDetails = ({ product, averageRating }) => {
   return (
     <>
-      <img
+      <Image
         src={product.imageURL}
         alt={product.name}
+        width={150}
+        height={150}
         className="w-full h-48 object-contain rounded-md"
       />
       <h2 className="text-2xl font-semibold mt-2">{product.name}</h2>

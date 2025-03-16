@@ -5,6 +5,7 @@ import { useGetStockQuantity } from "@/app/lib/hooks/useGetStockQuantity";
 import { useUpdateStockQuantity } from "@/app/lib/hooks/useUpdateStockQuantity";
 import { useState } from "react";
 import useAuth from "@/app/lib/hooks/useAuth";
+import Image from "next/image";
 
 export default function CartModal({ item, onClose, onItemRemoved }) {
   const { addOrder } = useAddOrder();
@@ -88,10 +89,12 @@ export default function CartModal({ item, onClose, onItemRemoved }) {
         {/* Product Details */}
         <div className="flex gap-6 border-b border-gray-300 pb-4">
           {/* Image */}
-          <img
+          <Image
             src={item.imageURL}
             alt={item.name}
-            className="w-48 h-48 object-contain rounded-xl"
+            width={80}
+            height={80}
+            className="w-48 h-48 object-cover rounded-xl"
           />
 
           {/* Info Section */}
@@ -107,6 +110,9 @@ export default function CartModal({ item, onClose, onItemRemoved }) {
 
             {/* Quantity Selection */}
             <div className="mt-4">
+              <h2 className="text-xl font-medium">
+                {stockQuantity > 0 ? "In Stock" : "Out of Stock"}
+              </h2>
               <label
                 htmlFor="quantity"
                 className="text-sm font-medium text-gray-700"

@@ -178,7 +178,7 @@ export default function OrdersList() {
                 <h2 className="text-xl font-semibold mt-2">
                   {order.productName}
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-gray-600 line-clamp-2 overflow-hidden">
                   {order.description.split(" ").slice(0, 10).join(" ")}...
                 </p>
                 <p className="text-gray-500">Ordered on {order.createdAt}</p>

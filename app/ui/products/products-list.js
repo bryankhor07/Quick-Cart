@@ -163,7 +163,7 @@ function ProductsListContent() {
                 className="w-full h-48 object-cover rounded-lg"
               />
               <h2 className="text-xl font-semibold mt-2">{product.name}</h2>
-              <p className="text-gray-600">
+              <p className="text-gray-600 line-clamp-2 overflow-hidden">
                 {product.description.split(" ").slice(0, 10).join(" ")}...
               </p>
               <p className="text-lg font-bold mt-2">${product.price}</p>

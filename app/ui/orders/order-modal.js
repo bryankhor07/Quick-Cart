@@ -1,4 +1,5 @@
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function OrderModal({ order, onClose }) {
   const router = useRouter();
@@ -19,11 +20,16 @@ export default function OrderModal({ order, onClose }) {
           >
             &times;
           </span>
-          <img
-            src={order.imageURL}
-            alt={order.productName}
-            className="w-full h-48 object-contain rounded-md"
-          />
+          <div className="flex items-center justify-center">
+            <Image
+              src={order.imageURL}
+              alt={order.productName}
+              width={150}
+              height={150}
+              className="w-72 h-48 object-cover rounded-md"
+            />
+          </div>
+
           <h2 className="text-xl font-semibold mt-6">{order.productName}</h2>
           <p className="text-gray-600">{order.description}</p>
           <p className="text-gray-500 mt-6">Ordered on {order.createdAt}</p>
