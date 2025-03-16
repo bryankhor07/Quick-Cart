@@ -139,7 +139,7 @@ export default function OrdersList() {
           No orders found for the selected time period.
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {userOrders.map((order) => {
             const now = new Date();
             const arrivalDate = new Date(order.arrivalDate);
@@ -175,10 +175,10 @@ export default function OrdersList() {
                   height={150}
                   className="w-full h-48 object-cover rounded-lg"
                 />
-                <h2 className="text-xl font-semibold mt-2">
+                <h2 className="text-md xl:text-lg font-semibold mt-2">
                   {order.productName}
                 </h2>
-                <p className="text-gray-600 line-clamp-2 overflow-hidden">
+                <p className="text-sm text-gray-600 line-clamp-2 overflow-hidden">
                   {order.description.split(" ").slice(0, 10).join(" ")}...
                 </p>
                 <p className="text-gray-500">Ordered on {order.createdAt}</p>

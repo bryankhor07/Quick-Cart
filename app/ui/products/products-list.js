@@ -148,7 +148,7 @@ function ProductsListContent() {
             : "No products available."}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => (
             <div
               key={product.id}
@@ -162,8 +162,10 @@ function ProductsListContent() {
                 height={200}
                 className="w-full h-48 object-cover rounded-lg"
               />
-              <h2 className="text-xl font-semibold mt-2">{product.name}</h2>
-              <p className="text-gray-600 line-clamp-2 overflow-hidden">
+              <h2 className="text-md xl:text-lg font-semibold mt-2">
+                {product.name}
+              </h2>
+              <p className="text-sm text-gray-600 line-clamp-2 overflow-hidden">
                 {product.description.split(" ").slice(0, 10).join(" ")}...
               </p>
               <p className="text-lg font-bold mt-2">${product.price}</p>

@@ -41,10 +41,10 @@ export default function CartList() {
               alt={item.name}
               width={150}
               height={150}
-              className="w-48 h-48 object-cover rounded-lg mr-4"
+              className="w-40 h-40 sm:w-48 sm:h-48  object-cover rounded-lg mr-4"
             />
             <div className="flex-1">
-              <div className="flex flex-row justify-between">
+              <div className="flex flex-col md:flex-row justify-between">
                 <h3 className="text-lg font-medium text-gray-800">
                   {item.name}
                 </h3>
