@@ -56,7 +56,7 @@ export const useGetUserOrders = (
       if (timeFilterDate) {
         countQuery = query(
           countQuery,
-          where("createdAt", ">=", timeFilterDate.toISOString())
+          where("orderedAt", ">=", timeFilterDate.toISOString())
         );
       }
 
@@ -82,7 +82,7 @@ export const useGetUserOrders = (
     let baseQuery = query(
       userOrdersCollectionRef,
       where("userId", "==", userId),
-      orderBy("createdAt", "desc")
+      orderBy("orderedAt", "desc")
     );
 
     // Apply time filter if needed
@@ -90,7 +90,7 @@ export const useGetUserOrders = (
     if (timeFilterDate) {
       baseQuery = query(
         baseQuery,
-        where("createdAt", ">=", timeFilterDate.toISOString())
+        where("orderedAt", ">=", timeFilterDate.toISOString())
       );
     }
 
@@ -134,7 +134,7 @@ export const useGetUserOrders = (
     let nextPageQuery = query(
       userOrdersCollectionRef,
       where("userId", "==", userId),
-      orderBy("createdAt", "desc")
+      orderBy("orderedAt", "desc")
     );
 
     // Apply time filter if needed
@@ -142,7 +142,7 @@ export const useGetUserOrders = (
     if (timeFilterDate) {
       nextPageQuery = query(
         nextPageQuery,
-        where("createdAt", ">=", timeFilterDate.toISOString())
+        where("orderedAt", ">=", timeFilterDate.toISOString())
       );
     }
 
@@ -186,7 +186,7 @@ export const useGetUserOrders = (
     let baseQuery = query(
       userOrdersCollectionRef,
       where("userId", "==", userId),
-      orderBy("createdAt", "desc")
+      orderBy("orderedAt", "desc")
     );
 
     // Apply time filter if needed
@@ -194,7 +194,7 @@ export const useGetUserOrders = (
     if (timeFilterDate) {
       baseQuery = query(
         baseQuery,
-        where("createdAt", ">=", timeFilterDate.toISOString())
+        where("orderedAt", ">=", timeFilterDate.toISOString())
       );
     }
 

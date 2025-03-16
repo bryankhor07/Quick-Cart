@@ -147,7 +147,10 @@ export default function OrdersList() {
             let statusText = "";
             let statusColor = "";
 
-            if (now >= arrivalDate) {
+            if (order.returnStatus) {
+              statusText = "Returned";
+              statusColor = "bg-yellow-500"; // Yellow for return
+            } else if (now >= arrivalDate) {
               statusText = "Delivered";
               statusColor = "bg-green-500"; // Green for delivered
             } else {
@@ -182,7 +185,7 @@ export default function OrdersList() {
                 <p className="text-sm text-gray-600 line-clamp-2 overflow-hidden">
                   {order.description.split(" ").slice(0, 10).join(" ")}...
                 </p>
-                <p className="text-gray-500">Ordered on {order.createdAt}</p>
+                <p className="text-gray-500">Ordered on {order.orderedAt}</p>
                 <p className="text-gray-500">Quantity: {order.quantity}</p>
                 <p className="text-lg font-bold mt-2">
                   Total: ${order.totalPrice}

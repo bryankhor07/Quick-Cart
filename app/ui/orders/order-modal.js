@@ -1,12 +1,14 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { NotificationBanner } from "../notification-banner";
+import { useUpdateReturnStatus } from "@/app/lib/hooks/useUpdateReturnStatus";
 import { useState } from "react";
 
 export default function OrderModal({ order, onClose, loadPage }) {
   const router = useRouter();
   const [showNoReturnBanner, setShowNoReturnBanner] = useState(false);
   const [showReturnBanner, setShowReturnBanner] = useState(false);
+  const { updateReturnStatus } = useUpdateReturnStatus();
 
   const redirectToProduct = () => {
     router.push(`/dashboard/products`);
@@ -24,11 +26,13 @@ export default function OrderModal({ order, onClose, loadPage }) {
     }
 
     // Implement return item logic here
+    updateReturnStatus(order.id);
     setShowReturnBanner(true);
     setTimeout(() => {
       setShowReturnBanner(false);
       onClose();
     }, 3000);
+    loadPage(1); // Reload the first page of orders
   };
 
   return (
@@ -61,7 +65,7 @@ export default function OrderModal({ order, onClose, loadPage }) {
 
           <h2 className="text-xl font-semibold mt-6">{order.productName}</h2>
           <p className="text-gray-600">{order.description}</p>
-          <p className="text-gray-500 mt-6">Ordered on {order.createdAt}</p>
+          <p className="text-gray-500 mt-6">Ordered on {order.orderedAt}</p>
           <p className="text-gray-500">
             Estimated arrival: {order.arrivalDate}
           </p>
@@ -75,7 +79,13 @@ export default function OrderModal({ order, onClose, loadPage }) {
           >
             Buy again?
           </button>
-          <button className="mt-4 w-48 bg-amber-500 text-white py-2 rounded-md hover:bg-amber-600">
+          <button
+            onClick={handleReturnItem}
+            className={`mt-4 w-48 bg-amber-500 text-white py-2 rounded-md ${
+              order.returnStatus ? "cursor-not-allowed" : "hover:bg-amber-600"
+            }`}
+            disabled={order.returnStatus}
+          >
             Return item
           </button>
         </div>

@@ -21,8 +21,9 @@ export const useAddOrder = () => {
         description,
         totalPrice,
         quantity,
-        createdAt: new Date().toLocaleDateString(),
+        orderedAt: new Date().toLocaleDateString(),
         arrivalDate: arrivalDate,
+        returnStatus: false,
       });
     } catch (error) {
       console.error("Error adding order: ", error);
