@@ -161,6 +161,7 @@ function ProductsListContent() {
                 width={200}
                 height={200}
                 className="w-full h-48 object-cover rounded-lg"
+                priority={true}
               />
               <h2 className="text-md xl:text-lg font-semibold mt-2">
                 {product.name}

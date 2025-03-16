@@ -42,6 +42,7 @@ export default function CartList() {
               width={150}
               height={150}
               className="w-40 h-40 sm:w-48 sm:h-48  object-cover rounded-lg mr-4"
+              priority={true}
             />
             <div className="flex-1">
               <div className="flex flex-col md:flex-row justify-between">

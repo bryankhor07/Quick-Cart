@@ -174,6 +174,7 @@ export default function OrdersList() {
                   width={150}
                   height={150}
                   className="w-full h-48 object-cover rounded-lg"
+                  priority={true}
                 />
                 <h2 className="text-md xl:text-lg font-semibold mt-2">
                   {order.productName}
@@ -245,7 +246,11 @@ export default function OrdersList() {
       )}
 
       {selectedOrder && (
-        <OrderModal order={selectedOrder} onClose={handleCloseModal} />
+        <OrderModal
+          order={selectedOrder}
+          onClose={handleCloseModal}
+          loadPage={loadPage}
+        />
       )}
     </div>
   );
