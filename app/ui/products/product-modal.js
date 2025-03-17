@@ -7,6 +7,7 @@ import { useAddToCart } from "@/app/lib/hooks/useAddToCart";
 import useAuth from "@/app/lib/hooks/useAuth";
 import { FaStar, FaStarHalfAlt, FaRegStar, FaTrash } from "react-icons/fa";
 import { NotificationBanner } from "../notification-banner";
+import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
 // ⭐ Star Rating Component
@@ -127,6 +128,7 @@ const WriteReview = ({
 };
 
 const ProductDetails = ({ product, averageRating }) => {
+  const [showReturnPolicy, setShowReturnPolicy] = useState(false);
   return (
     <>
       <Image
@@ -138,7 +140,26 @@ const ProductDetails = ({ product, averageRating }) => {
       />
       <h2 className="text-2xl font-semibold mt-2">{product.name}</h2>
       <p className="text-gray-600">{product.description}</p>
-      <p className="text-lg font-bold mt-2">${product.price}</p>
+      <div className="flex items-center justify-between gap-2 mt-2 relative">
+        <p className="text-lg font-bold">${product.price}</p>
+
+        {/* Button Wrapper (Ensures text appears directly below) */}
+        <div className="relative">
+          <button
+            className="text-blue-400 hover:text-blue-600 hover:underline flex items-center gap-1"
+            onClick={() => setShowReturnPolicy(!showReturnPolicy)}
+          >
+            FREE Returns <ChevronDownIcon className="w-4 h-4" />
+          </button>
+
+          {/* Floating Text (Always below button) */}
+          {showReturnPolicy && (
+            <div className="absolute top-full mt-1 right-2 w-48 p-2 bg-white shadow-lg border-2 border-dark rounded-md text-sm text-gray-600 z-10">
+              We offer free returns within 30 days of purchase.
+            </div>
+          )}
+        </div>
+      </div>
       <div className="mt-2 flex items-center">
         <AverageStarRating averageRating={averageRating} />
       </div>

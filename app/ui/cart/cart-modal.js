@@ -4,6 +4,7 @@ import { useDeleteFromCart } from "@/app/lib/hooks/useDeleteFromCart";
 import { useGetStockQuantity } from "@/app/lib/hooks/useGetStockQuantity";
 import { useUpdateStockQuantity } from "@/app/lib/hooks/useUpdateStockQuantity";
 import { useState } from "react";
+import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import useAuth from "@/app/lib/hooks/useAuth";
 import Image from "next/image";
 
@@ -24,6 +25,7 @@ export default function CartModal({ item, onClose, onItemRemoved }) {
     date: "",
     price: 0,
   });
+  const [showReturnPolicy, setShowReturnPolicy] = useState(false);
 
   const handleAddOrder = async () => {
     if (stockQuantity < quantity) {
@@ -147,6 +149,21 @@ export default function CartModal({ item, onClose, onItemRemoved }) {
                   </option>
                 ))}
               </select>
+              <div className="relative mt-2">
+                <button
+                  className="text-blue-400 hover:text-blue-600 hover:underline flex items-center gap-1"
+                  onClick={() => setShowReturnPolicy(!showReturnPolicy)}
+                >
+                  FREE Returns <ChevronDownIcon className="w-4 h-4" />
+                </button>
+
+                {/* Floating Text (Always below button) */}
+                {showReturnPolicy && (
+                  <div className="absolute top-full mt-1 w-48 p-2 bg-white shadow-lg border-2 border-dark rounded-md text-sm text-gray-600 z-10">
+                    We offer free returns within 30 days of purchase.
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
