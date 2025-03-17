@@ -1,5 +1,6 @@
 import { lusitana } from "@/app/ui/fonts";
 import Settings from "../../ui/account/settings";
+import DarkMode from "@/app/ui/dark-mode";
 
 export const metadata = {
   title: "Account",
@@ -8,9 +9,14 @@ export const metadata = {
 export default function AccountPage() {
   return (
     <div className="w-full">
-      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Account
-      </h1>
+      <div className="flex justify-between items-center">
+        <h1
+          className={`${lusitana.className} mb-4 text-xl md:text-2xl dark:text-white`}
+        >
+          Account
+        </h1>
+        <DarkMode />
+      </div>
       <Settings />
     </div>
   );

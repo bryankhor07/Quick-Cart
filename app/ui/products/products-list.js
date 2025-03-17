@@ -124,16 +124,16 @@ function ProductsListContent() {
       <div className="mb-6 flex flex-wrap items-center justify-between">
         <div className="text-xl font-semibold">
           {query ? (
-            <span>
+            <span className="dark:text-white">
               Found {totalProducts} products matching &quot;{query}&quot;
             </span>
           ) : (
-            <span>All Products</span>
+            <span className="dark:text-white">All Products</span>
           )}
         </div>
 
         {totalProducts > 0 && (
-          <div className="text-sm text-gray-500 mt-2 sm:mt-0">
+          <div className="text-sm text-gray-500 mt-2 sm:mt-0 dark:text-white">
             Showing {startIndex}-{endIndex} of {totalProducts}
           </div>
         )}

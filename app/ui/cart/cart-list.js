@@ -29,7 +29,7 @@ export default function CartList() {
   return (
     <div className="w-full mx-auto p-6 bg-white rounded-lg shadow-md">
       {cartItems.length === 0 ? (
-        <p className="text-gray-600">Your cart is empty.</p>
+        <p className="text-gray-600 dark:text-white">Your cart is empty.</p>
       ) : (
         cartItems.map((item) => (
           <div

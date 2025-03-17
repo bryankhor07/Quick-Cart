@@ -1,8 +1,9 @@
 import SideNav from "../ui/dashboard/sidenav";
+import DarkMode from "../ui/dark-mode";
 
 export default function Layout({ children }) {
   return (
-    <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
+    <div className="flex h-screen flex-col md:flex-row md:overflow-hidden dark:bg-dark">
       <div className="w-full flex-none md:w-64">
         <SideNav />
       </div>

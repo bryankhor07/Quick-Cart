@@ -1,5 +1,6 @@
 import { lusitana } from "@/app/ui/fonts";
 import MostPopularItems from "../ui/dashboard/most-popular-items";
+import DarkMode from "../ui/dark-mode";
 
 export const metadata = {
   title: "Dashboard",
@@ -8,9 +9,14 @@ export const metadata = {
 export default function DashboardPage() {
   return (
     <main>
-      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Dashboard
-      </h1>
+      <div className="flex justify-between items-center">
+        <h1
+          className={`${lusitana.className} mb-4 text-xl md:text-2xl dark:text-white`}
+        >
+          Dashboard
+        </h1>
+        <DarkMode />
+      </div>
       <MostPopularItems />
     </main>
   );

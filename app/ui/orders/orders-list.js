@@ -108,10 +108,10 @@ export default function OrdersList() {
   return (
     <div className="max-w-7xl mx-auto p-6">
       <div className="mb-6 flex flex-wrap items-center justify-between">
-        <div>
+        <div className="dark:text-white">
           {totalOrders} orders placed in
           <select
-            className="ml-2 bg-gray-200 border rounded-md p-1"
+            className="ml-2 bg-gray-200 border rounded-md p-1 dark:bg-dark"
             value={filter}
             onChange={handleFilterChange}
             disabled={loading}
@@ -124,7 +124,7 @@ export default function OrdersList() {
         </div>
 
         {totalOrders > 0 && (
-          <div className="text-sm text-gray-500 mt-2 sm:mt-0">
+          <div className="text-sm text-gray-500 mt-2 sm:mt-0 dark:text-white">
             Showing {startIndex}-{endIndex} of {totalOrders}
           </div>
         )}
@@ -135,7 +135,7 @@ export default function OrdersList() {
           <div className="loader p-4 rounded-full animate-spin border-4 border-gray-300 border-t-blue-600 h-12 w-12"></div>
         </div>
       ) : userOrders.length === 0 ? (
-        <div className="text-center py-16 text-gray-500">
+        <div className="text-center py-16 text-gray-500 dark:text-white">
           No orders found for the selected time period.
         </div>
       ) : (
