@@ -11,7 +11,6 @@ import {
   startAfter,
   getDocs,
   getCountFromServer,
-  where,
 } from "firebase/firestore";
 
 export const useGetAllProducts = (itemsPerPage = 12, searchQuery = "") => {

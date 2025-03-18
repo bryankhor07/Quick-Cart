@@ -5,7 +5,6 @@ import {
   query,
   where,
   orderBy,
-  onSnapshot,
   limit,
   startAfter,
   getDocs,

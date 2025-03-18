@@ -1,12 +1,5 @@
 import { db } from "../firebase";
-import {
-  deleteDoc,
-  doc,
-  collection,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
+import { deleteDoc, doc } from "firebase/firestore";
 
 export const useDeleteProduct = () => {
   const deleteProduct = async (productId) => {
