@@ -9,6 +9,7 @@ import { ProductsGridSkeleton } from "@/app/ui/skeletons";
 import useAuth from "../../lib/hooks/useAuth";
 import { Suspense } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 function ProductsListContent() {
   const searchParams = useSearchParams();
@@ -142,10 +143,79 @@ function ProductsListContent() {
       {loading ? (
         <ProductsGridSkeleton />
       ) : products.length === 0 ? (
-        <div className="text-center py-16 text-gray-500">
+        <div className="text-center py-16 text-gray-500 dark:text-white">
           {query
             ? `No products found matching "${query}"`
             : "No products available."}
+          <div className="mt-4">
+            Cannot find what you are looking for? Try searching on these
+            websites:
+            <div className="grid grid-cols-3 gap-2 mt-4">
+              <Link
+                href="https://www.amazon.com/"
+                className="underline text-blue-400 hover:text-blue-500"
+                target="_blank"
+              >
+                Amazon
+              </Link>
+              <Link
+                href="https://www.ebay.com/"
+                className="underline text-blue-400 hover:text-blue-500"
+                target="_blank"
+              >
+                Ebay
+              </Link>
+              <Link
+                href="https://www.walmart.com/"
+                className="underline text-blue-400 hover:text-blue-500"
+                target="_blank"
+              >
+                Walmart
+              </Link>
+              <Link
+                href="https://www.target.com/"
+                className="underline text-blue-400 hover:text-blue-500"
+                target="_blank"
+              >
+                Target
+              </Link>
+              <Link
+                href="https://www.bestbuy.com/"
+                className="underline text-blue-400 hover:text-blue-500"
+                target="_blank"
+              >
+                Best Buy
+              </Link>
+              <Link
+                href="https://www.costco.com/"
+                className="underline text-blue-400 hover:text-blue-500"
+                target="_blank"
+              >
+                Costco
+              </Link>
+              <Link
+                href="https://www.macys.com/"
+                className="underline text-blue-400 hover:text-blue-500"
+                target="_blank"
+              >
+                Macys
+              </Link>
+              <Link
+                href="https://www.kohls.com/"
+                className="underline text-blue-400 hover:text-blue-500"
+                target="_blank"
+              >
+                Kohls
+              </Link>
+              <Link
+                href="https://www.homedepot.com/"
+                className="underline text-blue-400 hover:text-blue-500"
+                target="_blank"
+              >
+                Home Depot
+              </Link>
+            </div>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
