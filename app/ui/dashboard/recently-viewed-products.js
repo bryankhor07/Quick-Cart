@@ -9,6 +9,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import useAuth from "@/app/lib/hooks/useAuth";
+import Image from "next/image";
+import { ProductsRowSkeleton } from "../skeletons";
 
 export default function RecentlyViewedProducts() {
   const [recentlyViewedProducts, setRecentlyViewedProducts] = useState([]);
@@ -30,7 +32,7 @@ export default function RecentlyViewedProducts() {
 
   // Show loading state when either auth is loading or products are loading
   if (authLoading || productsLoading) {
-    return <div className="flex justify-center py-8">Loading...</div>;
+    return <ProductsRowSkeleton />;
   }
 
   return (
@@ -64,9 +66,11 @@ export default function RecentlyViewedProducts() {
               className="border rounded-lg shadow-md p-4 h-full cursor-pointer dark:bg-white"
               onClick={() => setSelectedProduct(product)}
             >
-              <img
+              <Image
                 src={product.imageURL}
                 alt={product.name}
+                width={150}
+                height={150}
                 className="w-full h-40 object-cover rounded"
               />
               <h3 className="text-lg font-semibold mt-2 truncate">

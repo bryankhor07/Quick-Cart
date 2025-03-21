@@ -8,6 +8,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import Image from "next/image";
+import { ProductsRowSkeleton } from "../skeletons";
 
 export default function NewArrivals() {
   const [newProductArrivals, setNewProductArrivals] = useState([]);
@@ -18,8 +20,7 @@ export default function NewArrivals() {
     setNewProductArrivals(newArrivals);
   }, [newArrivals]);
 
-  if (loading)
-    return <div className="flex justify-center py-8">Loading...</div>;
+  if (loading) return <ProductsRowSkeleton />;
 
   return (
     <div className="max-w-6xl mx-auto py-4">
@@ -50,9 +51,11 @@ export default function NewArrivals() {
               className="border rounded-lg shadow-md p-4 h-full cursor-pointer dark:bg-white"
               onClick={() => setSelectedProduct(product)}
             >
-              <img
+              <Image
                 src={product.imageURL}
                 alt={product.name}
+                width={150}
+                height={150}
                 className="w-full h-40 object-cover rounded"
               />
               <h3 className="text-lg font-semibold mt-2 truncate">

@@ -8,6 +8,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import Image from "next/image";
+import { ProductsRowSkeleton } from "../skeletons";
 
 export default function MostPopularItems() {
   const [popularProducts, setPopularProducts] = useState([]);
@@ -22,8 +24,7 @@ export default function MostPopularItems() {
     fetchData();
   }, [getTopRatedProducts]);
 
-  if (loading)
-    return <div className="flex justify-center py-8">Loading...</div>;
+  if (loading) return <ProductsRowSkeleton />;
 
   return (
     <div className="max-w-6xl mx-auto py-4">
@@ -42,7 +43,7 @@ export default function MostPopularItems() {
         slidesPerView={1} // Dynamically adjust using breakpoints
         navigation
         pagination={{ clickable: true }}
-        autoplay={{ delay: 5000 }}
+        autoplay={{ delay: 4000 }}
         breakpoints={{
           640: { slidesPerView: 1 },
           768: { slidesPerView: 2 },
@@ -56,9 +57,11 @@ export default function MostPopularItems() {
               className="border rounded-lg shadow-md p-4 h-full cursor-pointer dark:bg-white"
               onClick={() => setSelectedProduct(product)}
             >
-              <img
+              <Image
                 src={product.imageURL}
                 alt={product.name}
+                width={150}
+                height={150}
                 className="w-full h-40 object-cover rounded"
               />
               <h3 className="text-lg font-semibold mt-2 truncate">
