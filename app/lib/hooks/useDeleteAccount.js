@@ -39,6 +39,17 @@ export const useDeleteAccount = () => {
       );
       await Promise.all(deleteOrderPromises);
 
+      // Delete user's cart
+      const cartCollection = collection(db, "cart");
+      const cartQuery = query(cartCollection, where("userId", "==", user.uid));
+      const cartQuerySnapshot = await getDocs(cartQuery);
+
+      const deleteCartPromises = cartQuerySnapshot.docs.map((cartDoc) =>
+        deleteDoc(cartDoc.ref)
+      );
+
+      await Promise.all(deleteCartPromises);
+
       // Delete user document from Firestore
       const userDocRef = doc(db, "users", user.uid);
       await deleteDoc(userDocRef);

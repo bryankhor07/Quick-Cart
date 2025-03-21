@@ -30,6 +30,7 @@ export const useAddUserInfo = () => {
         userID, // Optional since it's already the document ID, but helpful for redundancy
         email,
         createdAt: serverTimestamp(),
+        recentlyViewed: [],
       });
     } catch (error) {
       console.error("Error adding user: ", error);

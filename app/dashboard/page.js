@@ -1,6 +1,7 @@
 import { lusitana } from "@/app/ui/fonts";
 import MostPopularItems from "../ui/dashboard/most-popular-items";
 import NewArrivals from "../ui/dashboard/new-arrivals";
+import RecentlyViewedProducts from "../ui/dashboard/recently-viewed-products";
 import DarkMode from "../ui/dark-mode";
 
 export const metadata = {
@@ -20,6 +21,7 @@ export default function DashboardPage() {
       </div>
       <MostPopularItems />
       <NewArrivals />
+      <RecentlyViewedProducts />
     </main>
   );
 }

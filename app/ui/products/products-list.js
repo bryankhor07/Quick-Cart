@@ -2,6 +2,7 @@
 
 import { useGetAllProducts } from "@/app/lib/hooks/useGetAllProducts";
 import { useDeleteProduct } from "@/app/lib/hooks/useDeleteProduct";
+import { useAddRecentlyViewedProduct } from "@/app/lib/hooks/useAddRecentlyViewedProduct";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductModal from "./product-modal";
@@ -16,6 +17,7 @@ function ProductsListContent() {
   const query = searchParams.get("query")?.toLowerCase() || "";
   const { user, loading: authLoading } = useAuth();
   const itemsPerPage = 12;
+  const { addRecentlyViewedProduct } = useAddRecentlyViewedProduct();
 
   const {
     products,
@@ -31,8 +33,9 @@ function ProductsListContent() {
   const { deleteProduct } = useDeleteProduct();
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const handleProductClick = (product) => {
+  const handleProductClick = async (product) => {
     setSelectedProduct(product);
+    await addRecentlyViewedProduct(user?.uid, product.id);
   };
 
   const handleCloseModal = () => {
