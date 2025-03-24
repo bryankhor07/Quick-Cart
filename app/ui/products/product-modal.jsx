@@ -9,6 +9,7 @@ import { FaStar, FaStarHalfAlt, FaRegStar, FaTrash } from "react-icons/fa";
 import { NotificationBanner } from "../notification-banner";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
+import React from "react";
 
 // ⭐ Star Rating Component
 const StarRating = ({ rating, setRating, disabled = false }) => {
@@ -104,7 +105,11 @@ const WriteReview = ({
       {showRatingBanner && (
         <NotificationBanner text="Please select a rating before posting your review." />
       )}
-      <StarRating rating={rating} setRating={setRating} />
+      <StarRating
+        rating={rating}
+        setRating={setRating}
+        data-testid="star-rating"
+      />
       <div className="mt-1 flex gap-2">
         <textarea
           id="review"

@@ -7,7 +7,7 @@ import { auth } from "../lib/firebase.js";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { NotificationBanner } from "./notification-banner.js";
+import { NotificationBanner } from "./notification-banner.jsx";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");

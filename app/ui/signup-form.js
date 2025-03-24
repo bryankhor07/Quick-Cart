@@ -8,7 +8,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAddUserInfo } from "../lib/hooks/useAddUserInfo.js";
-import { NotificationBanner } from "./notification-banner.js";
+import { NotificationBanner } from "./notification-banner.jsx";
 import TermsAndConditions from "./terms-and-conditions.js";
 
 export default function SignUpForm() {
