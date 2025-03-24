@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useGetUserOrders } from "@/app/lib/hooks/useGetUserOrders";
 import useAuth from "@/app/lib/hooks/useAuth";
 import OrderModal from "./order-modal";
@@ -132,7 +133,10 @@ export default function OrdersList() {
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <div className="loader p-4 rounded-full animate-spin border-4 border-gray-300 border-t-blue-600 h-12 w-12"></div>
+          <div
+            className="loader p-4 rounded-full animate-spin border-4 border-gray-300 border-t-blue-600 h-12 w-12"
+            data-testid="loader"
+          ></div>
         </div>
       ) : userOrders.length === 0 ? (
         <div className="text-center py-16 text-gray-500 dark:text-white">
@@ -253,6 +257,7 @@ export default function OrdersList() {
           order={selectedOrder}
           onClose={handleCloseModal}
           loadPage={loadPage}
+          currentPage={currentPage}
         />
       )}
     </div>
