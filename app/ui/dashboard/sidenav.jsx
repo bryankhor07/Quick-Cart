@@ -5,10 +5,10 @@ import { auth } from "../../lib/firebase.js";
 import { useRouter } from "next/navigation";
 import useAuth from "../../lib/hooks/useAuth";
 import { useEffect, useState } from "react";
-import QuickCartLogo from "../quickcart-logo.js";
+import QuickCartLogo from "../quickcart-logo.jsx";
 import { PowerIcon } from "@heroicons/react/24/outline";
 import { CardSkeleton } from "../skeletons.jsx";
-import NavLinks from "./nav-links.js";
+import NavLinks from "./nav-links.jsx";
 import Link from "next/link";
 
 export default function SideNav() {

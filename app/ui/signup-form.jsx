@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAddUserInfo } from "../lib/hooks/useAddUserInfo.js";
 import { NotificationBanner } from "./notification-banner.jsx";
-import TermsAndConditions from "./terms-and-conditions.js";
+import TermsAndConditions from "./terms-and-conditions.jsx";
 
 export default function SignUpForm() {
   const [email, setEmail] = useState("");
