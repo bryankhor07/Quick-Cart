@@ -1,3 +1,5 @@
+import React from "react";
+
 // Loading animation
 const shimmer =
   "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
@@ -48,7 +50,10 @@ export function ProductsGridSkeleton() {
 
 export function ProductsRowSkeleton() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div
+      data-testid="products-row-skeleton"
+      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+    >
       {Array.from({ length: 4 }).map((_, index) => (
         <ProductCardSkeleton key={index} />
       ))}

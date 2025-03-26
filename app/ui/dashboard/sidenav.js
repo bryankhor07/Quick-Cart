@@ -7,7 +7,7 @@ import useAuth from "../../lib/hooks/useAuth";
 import { useEffect, useState } from "react";
 import QuickCartLogo from "../quickcart-logo.js";
 import { PowerIcon } from "@heroicons/react/24/outline";
-import { CardSkeleton } from "../skeletons.js";
+import { CardSkeleton } from "../skeletons.jsx";
 import NavLinks from "./nav-links.js";
 import Link from "next/link";
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useGetNewArrivalProducts } from "@/app/lib/hooks/useGetNewArrivalProducts";
+import { useEffect, useState, useRef } from "react";
+import { useGetTopRatedProducts } from "@/app/lib/hooks/useGetTopRatedProducts";
 import ProductModal from "../products/product-modal";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -10,15 +10,20 @@ import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import Image from "next/image";
 import { ProductsRowSkeleton } from "../skeletons";
+import React from "react";
 
-export default function NewArrivals() {
-  const [newProductArrivals, setNewProductArrivals] = useState([]);
-  const { newArrivals, loading } = useGetNewArrivalProducts();
+export default function MostPopularItems() {
+  const [popularProducts, setPopularProducts] = useState([]);
+  const { getTopRatedProducts, loading } = useGetTopRatedProducts();
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
-    setNewProductArrivals(newArrivals);
-  }, [newArrivals]);
+    async function fetchData() {
+      const products = await getTopRatedProducts();
+      setPopularProducts(products);
+    }
+    fetchData();
+  }, [getTopRatedProducts]);
 
   if (loading) return <ProductsRowSkeleton />;
 
@@ -30,14 +35,16 @@ export default function NewArrivals() {
           onClose={() => setSelectedProduct(null)}
         />
       )}
-      <h2 className="text-xl font-bold mb-4 dark:text-white">New Arrivals</h2>
+      <h2 className="text-xl font-bold mb-4 dark:text-white">
+        Most Popular Products
+      </h2>
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={10}
         slidesPerView={1} // Dynamically adjust using breakpoints
         navigation
         pagination={{ clickable: true }}
-        autoplay={{ delay: 5000 }}
+        autoplay={{ delay: 4000 }}
         breakpoints={{
           640: { slidesPerView: 1 },
           768: { slidesPerView: 2 },
@@ -45,7 +52,7 @@ export default function NewArrivals() {
           1280: { slidesPerView: 4 },
         }}
       >
-        {newProductArrivals.map((product) => (
+        {popularProducts.map((product) => (
           <SwiperSlide key={product.id}>
             <div
               className="border rounded-lg shadow-md p-4 h-full cursor-pointer dark:bg-white"
@@ -61,7 +68,9 @@ export default function NewArrivals() {
               <h3 className="text-lg font-semibold mt-2 truncate">
                 {product.name}
               </h3>
-              <p className="text-lg font-bold">${product.price}</p>
+              <p className="text-yellow-500">
+                {product.averageRating.toFixed(1)} ⭐
+              </p>
             </div>
           </SwiperSlide>
         ))}
