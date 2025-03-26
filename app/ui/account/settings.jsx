@@ -7,6 +7,7 @@ import { userGetUserCartCount } from "@/app/lib/hooks/useGetUserCartCount";
 import useAuth from "@/app/lib/hooks/useAuth";
 import { User, Mail, ShoppingBag, Trash2 } from "lucide-react"; // Import icons
 import Image from "next/image";
+import React from "react";
 
 export default function Settings() {
   const { deleteAccount, loading, error } = useDeleteAccount();
