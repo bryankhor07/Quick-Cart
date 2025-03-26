@@ -5,6 +5,7 @@ import useAuth from "@/app/lib/hooks/useAuth";
 import { useState } from "react";
 import CartModal from "./cart-modal";
 import Image from "next/image";
+import React from "react";
 
 export default function CartList() {
   const { user, loading: authLoading } = useAuth();

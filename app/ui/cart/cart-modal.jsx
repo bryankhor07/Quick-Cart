@@ -7,6 +7,7 @@ import { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import useAuth from "@/app/lib/hooks/useAuth";
 import Image from "next/image";
+import React from "react";
 
 export default function CartModal({ item, onClose, onItemRemoved }) {
   const { addOrder } = useAddOrder();
